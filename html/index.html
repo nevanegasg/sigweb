@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa SIG Web</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-sidebar-v2/css/leaflet-sidebar.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+
+  <!-- Botón para abrir/cerrar sidebar -->
+  <button id="btn_sidebar" 
+          style="position:absolute; top:10px; left:10px; z-index:2000; background:white; border:none; padding:8px; border-radius:8px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+      <i class="fa fa-bars"></i>
+  </button>
+  
+  <div id="sidebar" class="leaflet-sidebar collapsed">
+
+    <!-- TABS -->
+    <div class="leaflet-sidebar-tabs">
+      <ul role="tablist">
+        <li><a href="#home"   role="tab"><i class="fa fa-bars"></i></a></li>
+        <li><a href="#search" role="tab"><i class="fa fa-search"></i></a></li>
+        <li><a href="#filter" role="tab"><i class="fa fa-filter"></i></a></li>
+        <li><a href="#tools"  role="tab"><i class="fa fa-wrench"></i></a></li>
+      </ul>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="leaflet-sidebar-content">
+
+      <!-- ================= HOME ================= -->
+      <div class="leaflet-sidebar-pane" id="home">
+        <h1 class="leaflet-sidebar-header">
+          Inicio
+          <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+        </h1>
+        <p>Panel principal.</p>
+      </div>
+
+      <!-- ================= BUSCAR ================= -->
+      <div class="leaflet-sidebar-pane" id="search">
+        <h1 class="leaflet-sidebar-header">
+          Buscar
+          <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+        </h1>
+
+        <!-- ⭐ BUSCAR MANZANA ⭐ -->
+        <div class="card-panel">
+          <label class="panel-label">Buscar manzana por código</label>
+
+          <div class="input-group">
+            <div class="input-icon">
+              <i class="fa fa-search"></i>
+            </div>
+            <input id="search_manzana" type="text" placeholder="Ej: 25473010000000281" class="input-text">
+            <button id="btn_search_manzana" class="btn-primary"><i class="fa fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- ⭐ BUSCAR CONSTRUCCIÓN ⭐ -->
+        <div class="card-panel">
+          <label class="panel-label">Buscar construcción por código</label>
+
+          <div class="input-group">
+            <div class="input-icon">
+              <i class="fa fa-building"></i>
+            </div>
+            <input id="search_construccion" type="text" placeholder="Ej: 2547..." class="input-text">
+            <button id="btn_search_construccion" class="btn-success"><i class="fa fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= FILTROS ================= -->
+      <div class="leaflet-sidebar-pane" id="filter">
+        <h1 class="leaflet-sidebar-header">
+          Filtros
+          <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+        </h1>
+
+        <div class="card-panel">
+          <h3 class="section-title">Barrios</h3>
+          <label class="panel-label">Seleccionar barrio</label>
+          <select id="filtro_barrio" class="select-box">
+            <option value="">-- Selecciona un barrio --</option>
+          </select>
+
+          <button id="btn_filtrar_barrio" class="btn-success">Aplicar filtro</button>
+          <button id="btn_limpiar_barrio" class="btn-danger">Limpiar filtro</button>
+        </div>
+
+        <div class="card-panel">
+          <h3 class="section-title">Tipo de Actividad</h3>
+          <label class="panel-label">Seleccionar tipo</label>
+          <select id="filtro_actividad" class="select-box">
+            <option value="">-- Selecciona un tipo --</option>
+          </select>
+
+          <button id="btn_filtrar_actividad" class="btn-primary">Aplicar filtro</button>
+          <button id="btn_limpiar_actividad" class="btn-danger">Limpiar filtro</button>
+        </div>
+
+      </div>
+
+      <!-- ================= HERRAMIENTAS ================= -->
+      <div class="leaflet-sidebar-pane" id="tools">
+        <h1 class="leaflet-sidebar-header">
+          Herramientas
+          <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+        </h1>
+
+        <div class="tool-panel">
+
+          <!-- 🔹 Sección: Medición -->
+          <h2 class="tool-section-title"><i class="fa fa-ruler-combined"></i> Medición</h2>
+
+          <button class="tool-btn" id="btn_measure_distance">
+            <i class="fa fa-ruler-horizontal"></i> Medir distancia
+          </button>
+
+          <button class="tool-btn" id="btn_measure_area">
+            <i class="fa fa-draw-polygon"></i> Medir área
+          </button>
+
+          <button class="tool-btn danger" id="btn_clear_measure">
+            <i class="fa fa-times-circle"></i> Limpiar mediciones
+          </button>
+
+          <!-- 🔹 Sección: Coordenadas -->
+          <h2 class="tool-section-title"><i class="fa fa-location-crosshairs"></i> Coordenadas</h2>
+
+          <button class="tool-btn" id="btn_coords">
+            <i class="fa fa-map-marker-alt"></i> Obtener coordenadas
+          </button>
+
+          <!-- 🔹 Sección: Dibujo -->
+          <h2 class="tool-section-title"><i class="fa fa-pencil-alt"></i> Dibujo</h2>
+
+          <button class="tool-btn" id="btn_draw_point">
+            <i class="fa fa-dot-circle"></i> Punto
+          </button>
+
+          <button class="tool-btn" id="btn_draw_line">
+            <i class="fa fa-minus"></i> Línea
+          </button>
+
+          <button class="tool-btn" id="btn_draw_polygon">
+            <i class="fa fa-shapes"></i> Polígono
+          </button>
+
+          <button class="tool-btn danger" id="btn_clear_draw">
+            <i class="fa fa-trash"></i> Limpiar dibujos
+          </button>
+
+          <!-- 🔹 Sección: Identificación -->
+          <h2 class="tool-section-title"><i class="fa fa-info-circle"></i> Identificación</h2>
+
+          <button class="tool-btn primary" id="btn_identify">
+            <i class="fa fa-search-location"></i> Identificar entidades
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-minimap/dist/Control.MiniMap.min.js"></script>
+  <script src="https://unpkg.com/leaflet-sidebar-v2/js/leaflet-sidebar.js"></script>
+  <script src="https://unpkg.com/leaflet-geometryutil"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+  <script type="module" src="../js/main.js"></script>
+
+</body>
+</html>
