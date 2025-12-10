@@ -6,7 +6,7 @@
 
 El sistema integra datos espaciales almacenados en **PostgreSQL/PostGIS**, publicados por **GeoServer** mediante servicios estándar OGC (WMS/WFS), y consumidos por una aplicación web desarrollada con **Leaflet**. GeoUrbis provee herramientas de búsqueda, filtrado, medidas y dibujo, así como un panel lateral que facilita la interacción con múltiples capas temáticas.
 
----
+
 
 ## 2. Objetivos del Proyecto
 
@@ -20,7 +20,7 @@ Desarrollar un visor geográfico interactivo que permita la consulta y análisis
 - Diseñar una interfaz intuitiva y responsiva que apoye la consulta por ciudadanos y profesionales.
 - Documentar el proyecto y dejar instrucciones claras para su despliegue.
 
----
+
 
 ## 3. Audiencia Objetivo
 
