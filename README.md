@@ -40,7 +40,7 @@ GeoUrbis está pensado para:
 Ejemplos de Markdown para insertar imágenes:
 
 ```md
-![Vista principal de GeoUrbis](./screenshots/geourbis_main.png)
+![Vista principal de GeoUrbis]((./img/Escuela.png))
 ![Panel lateral y herramientas](./screenshots/geourbis_sidebar.png)
 ```
 
