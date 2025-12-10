@@ -1,7 +1,7 @@
 export function addLegend(map, layers) {
 
     const baseLayers = {};
-    if (map._baseLayers?.osm) baseLayers["Callejero (OSM)"] = map._baseLayers.osm;
+    if (map._baseLayers?.osm) baseLayers["Mapa Urbano (OSM)"] = map._baseLayers.osm;
     if (map._baseLayers?.satelite) baseLayers["Satélite (ESRI)"] = map._baseLayers.satelite;
 
     const overlays = {};
