@@ -28,41 +28,51 @@ GeoUrbis está pensado para:
 
 ## 4. Funcionalidades Principales - Capturas de Pantalla
 Esta es una visualización del inicio del geovisor
+
 <img width="512" height="512" alt="Inicio" src="./img/readme/inicio.jpg" />
 
 GeoUrbis integra las siguientes funcionalidades destacadas:
 
 - **Visualización de Capas Temáticas:** Se muestran las capas cargadas en el visor geográfico: manzanas, construcciones, barrios, equipamientos como instituciones educativas y escenarios deportivos y culturales, perímetro urbano, áreas de actividad urbanas establecidas en el POT y cartografía básica oficial del IGAC como vías y drenajes. Las capas se consumen vía WMS/WFS desde GeoServer y se puede activar o desactivar su visualización.
-<img width="512" height="512" alt="Lista de Capas" src="./img/readme/control_capas.jpg" />
 
 - **Mapas Base:** Este geovisor cuenta con el despliegue de dos mapas base, un mapa urbano correspondiente a OpenStreetMap y un mapa satelital perteneciente a ESRI.
 
+<img width="512" height="512" alt="Lista de Capas" src="./img/readme/control_capas.jpg" />
+
 - **Zoom:** Herramienta para acercarse o alejarse de la extensión actual del mapa.
+
+<img width="512" height="512" alt="Zoom" src="./img/readme/zoom.jpg" />
 
 - **Búsqueda por Código:** Permite buscar manzanas o construcciones mediante su código único (consulta WFS con `CQL_FILTER`).
 
+<img width="512" height="512" alt="Zoom" src="./img/readme/consulta.jpg" />
 
 - **Filtrado Dinámico:** Esta herramienta permite construir filtros por barrio o tipo de actividad que permiten explorar subconjuntos de datos.
 
-- **Popups Informativos:** Ventanas emergentes muestran atributos relevantes al hacer click sobre una entidad.
+<img width="512" height="512" alt="Zoom" src="./img/readme/filtro.jpg" />
+
+- **Popups Informativos:** Ventanas emergentes muestran atributos relevantes al hacer click sobre una entidad de la capa que esté activa.
+
+<img width="512" height="512" alt="Zoom" src="./img/readme/popups.jpg" />
 
 - **Medición y Dibujo:** Herramientas para medir distancias y áreas, y dibujar geometrías temporales en el mapa (Leaflet Draw).
+
+<img width="512" height="512" alt="Zoom" src="./img/readme/herramientas.jpg" />
 
 - **MiniMapa:** Mini mapa de contexto.
 
 - **Panel Lateral (Sidebar):** Organización de herramientas, búsquedas y filtros en una interfaz lateral accesible.
+---
+
+## 5. Fuentes de Datos
+
+- Servicio WMS oficial del IGAC (Base de datos vectorial básica. Departamento de Cundinamarca. Cabecera Municipal de Mosquera. Escala 1:1.000. Año 2025) para referencia cartográfica.
+- Digitalización del mapa CU-09. Áreas de Actividad del Plan de Ordenamiento Territorial del municipio - Formulación.
+- Infraestructura de Datos Espacial Regional - IDER.
 
 ---
 
-## 7. Fuentes de Datos
-
-- **Base de datos:** PostgreSQL con extensión PostGIS; contiene las tablas espaciales con geometrías y atributos del municipio.
-- **Servidor de publicación:** GeoServer, que expone servicios WMS y WFS para las capas almacenadas en PostGIS.
-- **Capas base externas:** Servicios WMS oficiales del IGAC (cartografía base, vías, drenajes) para referencia cartográfica.
-
----
-
-## 8. Arquitectura y Flujo de Datos
+## 6. Arquitectura y Flujo de Datos
 
 1. **Datos originales** → cargados y mantenidos en PostgreSQL/PostGIS.
 2. **GeoServer** → publica capas como WMS/WFS; aplica estilos SLD para simbolización.
@@ -71,7 +81,7 @@ GeoUrbis integra las siguientes funcionalidades destacadas:
 
 ---
 
-## 9. Librerías y Servicios Utilizados
+## 7. Librerías y Servicios Utilizados
 
 ### Frontend
 - **Leaflet** — biblioteca principal de mapas (visualización, interacción).
@@ -92,7 +102,7 @@ GeoUrbis integra las siguientes funcionalidades destacadas:
 
 ---
 
-## 10. Elección de la Biblioteca de Mapas (Choice of Mapping Library)
+## 8. Elección de la Biblioteca de Mapas
 
 En GeoUrbis se eligió **Leaflet** como biblioteca de mapas por las siguientes razones:
 
@@ -102,18 +112,11 @@ En GeoUrbis se eligió **Leaflet** como biblioteca de mapas por las siguientes r
 - **Compatibilidad con GeoServer:** consumo directo de WMS/WFS sin configuraciones complejas.
 - **Adecuado al alcance:** para un visorde consulta urbana (no necesariamente renderizado vectorial complejo) Leaflet ofrece el equilibrio óptimo entre funcionalidad y complejidad.
 
-**Comparación breve:**
-- *OpenLayers* ofrece mayor potencia para operaciones complejas y manejo nativo de proyecciones y fuentes, pero añade mayor complejidad y tamaño.
-- *MapLibre* (o Mapbox GL JS) es excelente para mapas vectoriales y renderizado por GPU, pero requiere infraestructura adicional de vector tiles o un flujo distinto de datos.
-
 ---
 
-## 11. Agradecimientos y Herramientas Asistidas por IA
+## 9. Agradecimientos y Herramientas Asistidas por IA
 
-Agradecimientos a la comunidad geoespacial por las librerías open source: **Leaflet**, **GeoServer**, **PostGIS** y a los proveedores de datos cartográficos oficiales (IGAC).
-
-### Declaración sobre uso de IA
-Durante la elaboración de la documentación y apoyo conceptual, se utilizó asistencia de herramientas de IA (por ejemplo, ChatGPT de OpenAI) para generar y pulir textos de la documentación. Cualquier parte del contenido generada con asistencia de IA ha sido revisada y adaptada manualmente por el equipo desarrollador.
+Durante la elaboración del proyecto se utilizó asistencia de herramientas de IA (ChatGPT de OpenAI) para validar la consistencia de la arquitectura del código.
 
 ---
 
