@@ -6,8 +6,6 @@
 
 El sistema integra datos espaciales almacenados en **PostgreSQL/PostGIS**, publicados por **GeoServer** mediante servicios estándar OGC (WMS/WFS), y consumidos por una aplicación web desarrollada con **Leaflet**. GeoUrbis provee herramientas de búsqueda, filtrado, medidas y dibujo, así como un panel lateral que facilita la interacción con múltiples capas temáticas.
 
-
-
 ## 2. Objetivos del Proyecto
 
 ### Objetivo General
@@ -17,57 +15,41 @@ Desarrollar un visor geográfico interactivo que permita la consulta y análisis
 - Integrar datos espaciales almacenados en PostGIS y publicados mediante GeoServer.
 - Implementar funcionalidades de búsqueda y filtrado por atributos (ej. búsqueda de manzanas y construcciones por código).
 - Añadir herramientas de medición (distancia y área) y dibujo sobre el mapa para un análisis exploratorio.
-- Diseñar una interfaz intuitiva y responsiva que apoye la consulta por ciudadanos y profesionales.
-- Documentar el proyecto y dejar instrucciones claras para su despliegue.
-
-
+- Diseñar una interfaz intuitiva y responsiva que apoye la consulta para ciudadanos y profesionales.
 
 ## 3. Audiencia Objetivo
 
 GeoUrbis está pensado para:
-- Ciudadanos que desean consultar información territorial sobre Mosquera.
-- Planificadores urbanos, arquitectos e ingenieros involucrados en proyectos municipales.
-- Profesionales y estudiantes de SIG que requieran un entorno práctico para visualizar datos.
-- Funcionarios públicos que necesiten una herramienta ligera para análisis y toma de decisiones.
-- Investigadores interesados en datos urbanos locales.
+- Ciudadanos que desean consultar información geográfica sobre Mosquera.
+- Planificadores urbanos e ingenieros involucrados en proyectos municipales.
+- Empleados del sector público que necesiten una herramienta ligera para análisis y toma de decisiones.
 
 ---
 
-## 4. Capturas de Pantalla
-
-*(Inserta aquí capturas reales en la carpeta `screenshots/` o sube las imágenes al repositorio.)*
-
-Ejemplos de Markdown para insertar imágenes:
-
-<img width="512" height="512" alt="Cabañas" src="./img/iconos/Escuela.png" />
-
-```md
-![Vista principal de GeoUrbis]((./img/Escuela.png))
-![Panel lateral y herramientas](./screenshots/geourbis_sidebar.png)
-```
-
----
-
-## 5. Enlace a la Aplicación
-
-Si el visor está desplegado en un servidor, incluye la URL aquí:
-
-**Enlace a la aplicación (si está disponible):** `https://tuservidor/geourbis`  
-
-Si actualmente no está en línea, puedes indicar cómo desplegarlo localmente (ver sección “Despliegue local”).
-
----
-
-## 6. Funcionalidades Principales
+## 4. Funcionalidades Principales - Capturas de Pantalla
+Esta es una visualización del inicio del geovisor
+<img width="512" height="512" alt="Inicio" src="./img/readme/inicio.jpg" />
 
 GeoUrbis integra las siguientes funcionalidades destacadas:
 
-- **Visualización de Capas Temáticas:** Manzanas, construcciones, barrios, equipamientos, instituciones educativas, perímetros y otras capas relevantes. Las capas se consumen vía WMS/WFS desde GeoServer.
-- **Búsqueda por Código:** Buscar manzanas o construcciones mediante su código único (consulta WFS con `CQL_FILTER`).
-- **Filtrado Dinámico:** Filtros por barrio o tipo de actividad que permiten explorar subconjuntos de datos.
+- **Visualización de Capas Temáticas:** Se muestran las capas cargadas en el visor geográfico: manzanas, construcciones, barrios, equipamientos como instituciones educativas y escenarios deportivos y culturales, perímetro urbano, áreas de actividad urbanas establecidas en el POT y cartografía básica oficial del IGAC como vías y drenajes. Las capas se consumen vía WMS/WFS desde GeoServer y se puede activar o desactivar su visualización.
+<img width="512" height="512" alt="Lista de Capas" src="./img/readme/control_capas.jpg" />
+
+- **Mapas Base:** Este geovisor cuenta con el despliegue de dos mapas base, un mapa urbano correspondiente a OpenStreetMap y un mapa satelital perteneciente a ESRI.
+
+- **Zoom:** Herramienta para acercarse o alejarse de la extensión actual del mapa.
+
+- **Búsqueda por Código:** Permite buscar manzanas o construcciones mediante su código único (consulta WFS con `CQL_FILTER`).
+
+
+- **Filtrado Dinámico:** Esta herramienta permite construir filtros por barrio o tipo de actividad que permiten explorar subconjuntos de datos.
+
 - **Popups Informativos:** Ventanas emergentes muestran atributos relevantes al hacer click sobre una entidad.
+
 - **Medición y Dibujo:** Herramientas para medir distancias y áreas, y dibujar geometrías temporales en el mapa (Leaflet Draw).
-- **MiniMapa y Leyenda:** Mini mapa de contexto y leyenda interactiva con control ON/OFF para capas principales.
+
+- **MiniMapa:** Mini mapa de contexto.
+
 - **Panel Lateral (Sidebar):** Organización de herramientas, búsquedas y filtros en una interfaz lateral accesible.
 
 ---
