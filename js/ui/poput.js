@@ -4,6 +4,9 @@ export function initTipoDeActividadPopup(tipoActividadLayer, map) {
 
     map.on("click", function (e) {
 
+        // Solo ejecutar si la capa está activa
+        if (!map.hasLayer(tipoActividadLayer)) return;
+
         const point = map.latLngToContainerPoint(e.latlng, map.getZoom());
         const size = map.getSize();
 
@@ -40,8 +43,7 @@ export function initTipoDeActividadPopup(tipoActividadLayer, map) {
                     .setLatLng(e.latlng)
                     .setContent(html)
                     .openOn(map);
-            })
-            .catch(err => console.log("Error GetFeatureInfo:", err));
+            });
     });
 }
 
@@ -50,6 +52,9 @@ export function initConstruccionesPopup(construccionesLayer, map) {
     const wmsUrl = "http://localhost:8080/geoserver/sigweb/wms";
 
     map.on("click", function (e) {
+
+        //  Condición clave
+        if (!map.hasLayer(construccionesLayer)) return;
 
         const point = map.latLngToContainerPoint(e.latlng, map.getZoom());
         const size = map.getSize();
@@ -70,7 +75,6 @@ export function initConstruccionesPopup(construccionesLayer, map) {
             y: Math.floor(point.y)
         };
 
-        // Construye la URL del GetFeatureInfo
         const url = wmsUrl + L.Util.getParamString(params, wmsUrl, true);
 
         fetch(url)
@@ -94,17 +98,18 @@ export function initConstruccionesPopup(construccionesLayer, map) {
                     .setLatLng(e.latlng)
                     .setContent(html)
                     .openOn(map);
-            })
-            .catch(err => console.error("Error en GetFeatureInfo (Construcciones):", err));
+            });
     });
 }
-
 
 export function initBarriosPopup(barriosLayer, map) {
 
     const wmsUrl = "http://localhost:8080/geoserver/sigweb/wms";
 
     map.on("click", function (e) {
+
+        // No ejecutar si la capa no está encendida
+        if (!map.hasLayer(barriosLayer)) return;
 
         const point = map.latLngToContainerPoint(e.latlng, map.getZoom());
         const size = map.getSize();
@@ -142,7 +147,6 @@ export function initBarriosPopup(barriosLayer, map) {
                     .setLatLng(e.latlng)
                     .setContent(html)
                     .openOn(map);
-            })
-            .catch(err => console.error("Error en GetFeatureInfo (Barrios):", err));
+            });
     });
 }
