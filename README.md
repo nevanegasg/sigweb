@@ -126,52 +126,7 @@ En GeoUrbis se eligió **Leaflet** como biblioteca de mapas por las siguientes r
 
 ---
 
-## 11. Despliegue Local (Quick Start)
-
-### Requisitos previos
-- PostgreSQL + PostGIS instalados y con las capas cargadas.
-- GeoServer configurado y publicando las capas (WMS/WFS).
-- Servidor web estático o entorno de desarrollo (ej. `live-server`, `http-server`, o similar).
-
-### Pasos rápidos
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/geourbis.git
-   cd geourbis
-   ```
-2. Configurar conexiones a GeoServer en los archivos JS (endpoints WMS/WFS).
-3. Servir el directorio `public/` o `dist/` con un servidor estático:
-   ```bash
-   npx http-server ./ -p 8081
-   ```
-4. Abrir `http://localhost:8081` en el navegador.
-
----
-
-## 12. Estructura Recomendada del Repositorio
-
-```
-geourbis/
-├─ public/
-│  ├─ index.html
-│  ├─ css/
-│  │  └─ styles.css
-│  ├─ js/
-│  │  ├─ main.js
-│  │  ├─ map/
-│  │  ├─ layers/
-│  │  └─ ui/
-│  └─ screenshots/
-├─ data/               # (opcional) shapefiles o archivos de referencia
-├─ scripts/
-│  └─ import_to_postgis.sql
-├─ README.md
-└─ LICENSE
-```
-
----
-
-## 13. Agradecimientos y Herramientas Asistidas por IA
+## 11. Agradecimientos y Herramientas Asistidas por IA
 
 Agradecimientos a la comunidad geoespacial por las librerías open source: **Leaflet**, **GeoServer**, **PostGIS** y a los proveedores de datos cartográficos oficiales (IGAC).
 
@@ -180,31 +135,176 @@ Durante la elaboración de la documentación y apoyo conceptual, se utilizó asi
 
 ---
 
-## 14. Contacto
+# Guía de Instalación y Despliegue de la Aplicación GeoUrbis
+## 1. Requisitos Previos
+Antes de ejecutar la aplicación, instalar:
 
-Para preguntas, sugerencias o reportes de errores:
-- **Autor / Equipo:** Equipo GeoUrbis
-- **Correo:** tu.email@dominio.com
-- **Repositorio:** https://github.com/tuusuario/geourbis
+### PostgreSQL + PostGIS
+https://www.postgresql.org/download  
+https://postgis.net/install/
 
----
+### GeoServer
+https://geoserver.org/
 
-## 15. Licencia
+### Visual Studio Code + Live Server
+Extensión Live Server:
+https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
 
-Indica aquí la licencia del proyecto (por ejemplo MIT, GPLv3, etc.). Ejemplo:
+## 2. Configurar Base de Datos en PostgreSQL/PostGIS
+
+1. Crear una base de datos:
+
+```sql
+CREATE DATABASE sigweb;
+```
+
+2. Activar PostGIS:
+
+```sql
+CREATE EXTENSION postgis;
+```
+
+3. Importar el archivo incluido de la base de datos del repositorio:
 
 ```
-MIT License
-Copyright (c) 2025 GeoUrbis
+base_de_datos.sql
 ```
 
----
+El archivo base_de_datos.sql incluye siguientes tablas necesarias:
+- Barrios
+- Manzanas
+- Tipo de actividad 
+- Construcciones
+- Instituciones
+- Escenarios deportivos y culturales
 
-## Notas finales
+## 3. Configuración de GeoServer
 
-Este README es una base completa y puede adaptarse o extenderse con:
-- Procedimientos detallados de importación de datos a PostGIS.
-- Scripts de despliegue automatizado (Docker, Docker Compose).
-- Documentación técnica de cada módulo JS.
-- Casos de uso y ejemplos reproducibles.
+### 3.1 Crear Workspace
+Nombre: `sigweb`  
+Namespace URI: `http://sigweb`
+
+### 3.2 Crear DataStore (PostGIS)
+Ir a:
+
+```
+Data → Stores → Add new Store → PostGIS
+```
+
+Configurar:
+
+- host: localhost  
+- port: 5432  (o el numero de puerto de tu base de datos)
+- database: sigweb  
+- schema: public  
+- user/pass según tu instalación  
+
+### 3.3 Publicar las capas
+Publicar como **WMS + WFS**:
+
+| Capa | Tipo |
+|------|------|
+| Barrios | Polygon |
+| Manzanas | Polygon |
+| Construcciones | Polygon |
+| Perimetro | Polygon|
+| Tipo de actividad | Polygon|
+| Instituciones | Point |
+| Escenarios deportivos | Point |
+
+### 3.4 Estilos SLD
+Los estilos SLD están en:
+
+```
+/geoserver_styles/
+```
+
+Cargar cada uno mediante:
+
+```
+GeoServer → Styles → Upload
+```
+
+## 4. Ejecutar la Aplicación Web
+
+1. Abrir el proyecto en **Visual Studio Code**  
+2. Abrir el archivo:
+
+```
+/index.html
+```
+
+3 Click derecho → **Open with Live Server**
+
+La aplicación se ejecutará en:
+
+```
+http://127.0.0.1:5500/
+```
+> Live Server es recomendado para cargar módulos ES6 y JSON locales.
+
+## 5. Conexiones esperadas
+
+### GeoServer:
+```
+http://localhost:8080/geoserver/
+```
+
+### WMS:
+```
+http://localhost:8080/geoserver/sigweb/wms
+```
+
+### WFS:
+```
+http://localhost:8080/geoserver/sigweb/ows?service=WFS
+```
+
+### Archivos JSON locales:
+```
+/data/Json/
+```
+
+### Íconos personalizados:
+```
+/img/iconos/
+```
+
+## 6. Problemas Comunes
+
+### No aparecen capas
+- Revisar conexión con PostGIS  
+- Revisar workspace  
+- Revisar estilos  
+
+### Error CORS en GeoServer
+Editar:
+
+```
+GEOSERVER_HOME/webapps/geoserver/WEB-INF/web.xml
+```
+
+### JSON no carga
+Debe ejecutarse con **Live Server**, no abriendo el HTML directamente.
+
+## 7 Estructura del Proyecto
+
+```
+├── css/
+├── data/
+│   └── Json/
+├── img/
+│   └── iconos/
+├── js/
+│   ├── layers/
+│   ├── filters/
+│   ├── search/
+│   ├── main.js
+├── geoserver_styles/
+├── Html
+│   └── index.html
+├── README.md
+└── base_de_datos
+```
+
 
